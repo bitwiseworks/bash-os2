@@ -352,6 +352,13 @@ tilde_expand_word (const char *filename)
     {
       /* Prefix $HOME to the rest of the string. */
       expansion = sh_get_env_value ("HOME");
+#ifdef __OS2__ /* convert x:\foo to x:/foo */
+      if (expansion) {
+        char *p;
+        for (p = expansion; *p; p++)
+          if (*p == '\\') *p = '/';
+      }
+#endif
 #if defined (_WIN32)
       if (expansion == 0)
 	expansion = sh_get_env_value ("APPDATA");
