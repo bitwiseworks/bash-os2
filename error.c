@@ -430,7 +430,11 @@ trace (format, va_alist)
   static FILE *tracefp = (FILE *)NULL;
 
   if (tracefp == NULL)
+#ifndef __OS2__
     tracefp = fopen("/tmp/bash-trace.log", "a+");
+#else
+    tracefp = fopen("/@unixroot/var/tmp/bash-trace.log", "a+");
+#endif
 
   if (tracefp == NULL)
     tracefp = stderr;
